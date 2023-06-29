@@ -1,6 +1,6 @@
 version: 1.2
 workflows:
- - name: gas_identification
+ - name: gas_identification_wf
    subclass: WDL
    primaryDescriptorPath: /workflows/wf_gas_identification.wdl
    testParameterFiles:
