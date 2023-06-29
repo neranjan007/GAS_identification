@@ -5,4 +5,3 @@ workflows:
    primaryDescriptorPath: /workflows/wf_gas_identification.wdl
    testParameterFiles:
     - empty.json
-
