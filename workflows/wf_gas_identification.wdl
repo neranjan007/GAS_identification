@@ -52,8 +52,8 @@ workflow GAS_identification_workflow{
 
     call spades.spades_task{
         input:
-            read1 = R1,
-            read2 = R2,
+            read1 = trimmomatic_task.read1_paired,
+            read2 = trimmomatic_task.read2_paired,
             samplename = samplename
     }
 
