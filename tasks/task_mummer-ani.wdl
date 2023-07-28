@@ -52,7 +52,7 @@ task mummerANI_task{
             awk 'NR == 1;  NR > 1 {print $0 | "sort -k5 -nr" }' 1155005001.ani-mummer.out.tsv | tee ~{samplename}.ani-mummer.out.sorted.tsv
             ## parse out highest percentBases aligned
             awk 'NR == 2 {print $0 | "cut -f 5" }' ~{samplename}.ani-mummer.out.sorted.tsv | tee TOP_PERCENT_ANI
-            echo "highest percent bases aligned is: $(cat PERCENT_ANI)"
+            echo "highest percent bases aligned is: $(cat TOP_PERCENT_ANI)"
             ## parse out ANI for the highest percentBases aligned
             awk 'NR == 2 {print $0 | "cut -f 3" }' ~{samplename}.ani-mummer.out.sorted.tsv | tee TOP_ANI 
 
