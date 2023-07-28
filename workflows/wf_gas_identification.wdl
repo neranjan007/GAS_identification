@@ -7,6 +7,7 @@ import "../tasks/task_trimmomatic.wdl" as trimmomatic
 import "../tasks/task_spades.wdl" as spades
 import "../tasks/task_rmlst.wdl" as rmlst
 import "../tasks/task_emmtyper.wdl" as emmtyper
+import "../tasks/task_mummer-ani.wdl" as ani
 
 workflow GAS_identification_workflow{
     input{
@@ -14,6 +15,7 @@ workflow GAS_identification_workflow{
         File R2
         String samplename
         String? emmtypingtool_docker_image
+        File referance_genome
     }
 
     # tasks and/or subworkflows to execute
@@ -65,6 +67,13 @@ workflow GAS_identification_workflow{
     call emmtyper.emmtyper_task{
         input:
             assembly = spades_task.scaffolds,
+            samplename = samplename
+    }
+
+    call ani.mummerANI_task{
+        input:
+            assembly = spades_task.scaffolds,
+            ref_genome = referance_genome,
             samplename = samplename
     }
 
