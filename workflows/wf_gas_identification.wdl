@@ -106,7 +106,7 @@ workflow GAS_identification_workflow{
         String Bracken_top_taxon = trimmed_kraken_n_bracken_task.bracken_taxon
         Float Bracken_taxon_ratio = trimmed_kraken_n_bracken_task.bracken_taxon_ratio
         String Bracken_top_genus = trimmed_kraken_n_bracken_task.bracken_genus
-
+        File Bracken_report_sorted = trimmed_kraken_n_bracken_task.bracken_report_sorted
         # rMLST 
         String rMLST_TAXON = rmlst_task.taxon
         # emmTyper 
