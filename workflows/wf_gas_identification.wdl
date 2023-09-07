@@ -2,7 +2,7 @@ version 1.0
 
 import "../tasks/task_fastqc.wdl" as fastqc
 import "../tasks/task_emmtypingtool.wdl" as emmtyping_task
-import "../tasks/task_kraken_n_bracken.wdl" as kraken_n_bracken_task
+import "../tasks/task_kraken_n_bracken.wdl" as kraken_n_bracken
 import "../tasks/task_trimmomatic.wdl" as trimmomatic
 import "../tasks/task_spades.wdl" as spades
 import "../tasks/task_rmlst.wdl" as rmlst
@@ -15,7 +15,7 @@ workflow GAS_identification_workflow{
         File R2
         String samplename
         String? emmtypingtool_docker_image
-        File referance_genome
+        File? referance_genome
     }
 
     # tasks and/or subworkflows to execute
@@ -33,12 +33,7 @@ workflow GAS_identification_workflow{
             docker = emmtypingtool_docker_image
     }
 
-    call kraken_n_bracken_task.kraken_n_braken{
-        input:
-            read1 = R1,
-            read2 = R2,
-            samplename = samplename
-    }
+
 
     call trimmomatic.trimmomatic_task{
         input:
@@ -50,6 +45,13 @@ workflow GAS_identification_workflow{
         input:
             read1 = trimmomatic_task.read1_paired,
             read2 = trimmomatic_task.read2_paired
+    }
+
+    call kraken_n_bracken.kraken_n_bracken_task as raw_kraken_n_bracken_task{
+        input:
+            read1 = R1,
+            read2 = R2,
+            samplename = samplename        
     }
 
     call spades.spades_task{
@@ -77,6 +79,13 @@ workflow GAS_identification_workflow{
             samplename = samplename
     }
 
+    call kraken_n_bracken.kraken_n_bracken_task as trimmed_kraken_n_bracken_task{
+        input:
+            read1 = trimmomatic_task.read1_paired,
+            read2 = trimmomatic_task.read2_paired,
+            samplename = samplename
+    }
+
     output{
         File FASTQC_raw_R1 = rawfastqc_task.r1_fastqc
         File FASTQC_raw_R2 = rawfastqc_task.r2_fastqc
@@ -86,15 +95,26 @@ workflow GAS_identification_workflow{
         String? emmtypingtool_version = emmtypingtool.emmtypingtool_version
         String? emmtypingtool_docker = emmtypingtool.emmtypingtool_docker
         # kraken2 Bracken 
+        String Bracken_top_taxon_rawReads = raw_kraken_n_bracken_task.bracken_taxon
+        Float Bracken_taxon_ratio_rawReads = raw_kraken_n_bracken_task.bracken_taxon_ratio
+        String Bracken_top_genus_rawReads = raw_kraken_n_bracken_task.bracken_genus
         # Trimmed read qc
         File FASTQC_Trim_R1 = trimmedfastqc_task.r1_fastqc
         File FASTQC_Trim_R2 = trimmedfastqc_task.r2_fastqc
         #File Spades_scaffolds = spades_task.scaffolds
+        # kraken2 Bracken after trimming
+        String Bracken_top_taxon = trimmed_kraken_n_bracken_task.bracken_taxon
+        Float Bracken_taxon_ratio = trimmed_kraken_n_bracken_task.bracken_taxon_ratio
+        String Bracken_top_genus = trimmed_kraken_n_bracken_task.bracken_genus
+
         # rMLST 
         String rMLST_TAXON = rmlst_task.taxon
         # emmTyper 
         File emmtyper_results = emmtyper_task.emmtyper_results
         String emmtyper_emmtype = emmtyper_task.emmtype
+        # ani
+        Float ani_precent_aligned = mummerANI_task.ani_precent_aligned
+        Float ani_percent = mummerANI_task.ani_ANI
     }
 
 }
