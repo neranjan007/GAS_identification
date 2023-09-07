@@ -77,6 +77,8 @@ task mummerANI_task{
 
     output {
         File ani_output_tsv = "~{samplename}.ani-mummer.out.tsv"
+        Float ani_precent_aligned = read_float("TOP_PERCENT_ANI")
+        Float ani_ANI = read_float("TOP_ANI")
     }
 
     runtime {
