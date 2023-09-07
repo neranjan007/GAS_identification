@@ -1,6 +1,6 @@
 version 1.0 
 
-task kraken_n_braken{
+task kraken_n_bracken_task{
     meta{
         description: "taxonomic assignment of metagenomics sequencing reads"
     }
