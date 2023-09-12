@@ -8,6 +8,7 @@ import "../tasks/task_spades.wdl" as spades
 import "../tasks/task_rmlst.wdl" as rmlst
 import "../tasks/task_emmtyper.wdl" as emmtyper
 import "../tasks/task_mummer-ani.wdl" as ani
+import "../tasks/task_quast.wdl" as quast
 
 workflow GAS_identification_workflow{
     input{
@@ -33,8 +34,6 @@ workflow GAS_identification_workflow{
             docker = emmtypingtool_docker_image
     }
 
-
-
     call trimmomatic.trimmomatic_task{
         input:
             read1 = R1,
@@ -58,6 +57,12 @@ workflow GAS_identification_workflow{
         input:
             read1 = trimmomatic_task.read1_paired,
             read2 = trimmomatic_task.read2_paired,
+            samplename = samplename
+    }
+
+    call quast.quast_task{
+        input:
+            assembly = spades_task.scaffolds,
             samplename = samplename
     }
 
@@ -102,6 +107,12 @@ workflow GAS_identification_workflow{
         File FASTQC_Trim_R1 = trimmedfastqc_task.r1_fastqc
         File FASTQC_Trim_R2 = trimmedfastqc_task.r2_fastqc
         #File Spades_scaffolds = spades_task.scaffolds
+        # quast
+        File QUAST_report = quast_task.quast_report
+        Int QUAST_genome_length = quast_task.genome_length
+        Int QUAST_no_of_contigs = quast_task.number_contigs
+        Int QUAST_n50_value = quast_task.n50_value
+        Float QUAST_gc_percent = quast_task.gc_percent
         # kraken2 Bracken after trimming
         String Bracken_top_taxon = trimmed_kraken_n_bracken_task.bracken_taxon
         Float Bracken_taxon_ratio = trimmed_kraken_n_bracken_task.bracken_taxon_ratio
