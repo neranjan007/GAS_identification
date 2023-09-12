@@ -26,14 +26,6 @@ workflow GAS_identification_workflow{
             read2 = R2 
     }
 
-    call emmtyping_task.emmtypingtool{
-        input:
-            read1 = R1,
-            read2 = R2,
-            samplename = samplename,
-            docker = emmtypingtool_docker_image
-    }
-
     call trimmomatic.trimmomatic_task{
         input:
             read1 = R1,
@@ -46,10 +38,19 @@ workflow GAS_identification_workflow{
             read2 = trimmomatic_task.read2_paired
     }
 
+    call emmtyping_task.emmtypingtool{
+        input:
+            read1 = trimmomatic_task.read1_paired,
+            read2 = trimmomatic_task.read2_paired,
+            samplename = samplename,
+            docker = emmtypingtool_docker_image
+    }
+
+
     call kraken_n_bracken.kraken_n_bracken_task as raw_kraken_n_bracken_task{
         input:
-            read1 = R1,
-            read2 = R2,
+            read1 = trimmomatic_task.read1_paired,
+            read2 = trimmomatic_task.read2_paired,
             samplename = samplename        
     }
 
