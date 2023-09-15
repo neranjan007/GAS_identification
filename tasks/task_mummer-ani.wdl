@@ -40,6 +40,7 @@ task mummerANI_task{
         # CHECK FOR A NEARLY BLANK TSV (ONLY HEADER LINE), mean sample did not surpass mash-filter and thus no ANI was run
         LINE_COUNT_OUTPUT_TSV=$(wc -l ~{samplename}.ani-mummer.out.tsv | cut -d ' ' -f 1)
         echo "Number of lines in output TSV is: ${LINE_COUNT_OUTPUT_TSV}"
+        echo "Number of lines is ${LINE_COUNT_OUTPUT_TSV}" ${LINE_COUNT_OUTPUT_TSV}
         if [[ ${LINE_COUNT_OUTPUT_TSV} -eq 1 ]]; then
             echo "~{samplename} did not surpass the minimum mash genetic distance filter, thus ANI was not performed"
             echo "The output TSV only contains the header line"
@@ -49,7 +50,7 @@ task mummerANI_task{
             echo "ANI skipped due to high genetic divergence from reference genomes" > ANI_TOP_SPECIES_MATCH
         # if output TSV has greater than 1 lines, then parse for appropriate outputs
         else
-            awk 'NR == 1;  NR > 1 {print $0 | "sort -k5 -nr" }' 1155005001.ani-mummer.out.tsv | tee ~{samplename}.ani-mummer.out.sorted.tsv
+            awk 'NR == 1;  NR > 1 {print $0 | "sort -k5 -nr" }' ~{samplename}.ani-mummer.out.tsv | tee ~{samplename}.ani-mummer.out.sorted.tsv
             ## parse out highest percentBases aligned
             awk 'NR == 2 {print $0 | "cut -f 5" }' ~{samplename}.ani-mummer.out.sorted.tsv | tee TOP_PERCENT_ANI
             echo "highest percent bases aligned is: $(cat TOP_PERCENT_ANI)"

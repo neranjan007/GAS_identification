@@ -109,31 +109,38 @@ workflow GAS_identification_workflow{
         # raw fastqc
         File FASTQC_raw_R1 = rawfastqc_task.r1_fastqc
         File FASTQC_raw_R2 = rawfastqc_task.r2_fastqc
+
         # raw screen
         String screen_raw_flag = raw_screen_reads_task.read_screen
         Int screen_raw_est_genome_length = raw_screen_reads_task.est_genome_length
         Float screen_raw_est_coverage = raw_screen_reads_task.est_coverage
+
         # kraken2 Bracken 
         String Bracken_top_taxon_rawReads = raw_kraken_n_bracken_task.bracken_taxon
         Float Bracken_taxon_ratio_rawReads = raw_kraken_n_bracken_task.bracken_taxon_ratio
         String Bracken_top_genus_rawReads = raw_kraken_n_bracken_task.bracken_genus
+
         # Trimmed read qc
         File FASTQC_Trim_R1 = trimmedfastqc_task.r1_fastqc
         File FASTQC_Trim_R2 = trimmedfastqc_task.r2_fastqc
+
         # screen trimmed
         String screen_trimmed_flag = trimmed_screen_reads_task.read_screen
         Int screen_trimmed_est_genome_length = trimmed_screen_reads_task.est_genome_length
         Float screen_trimmed_est_coverage = trimmed_screen_reads_task.est_coverage
+
         # kraken2 Bracken after trimming
         String Bracken_top_taxon = trimmed_kraken_n_bracken_task.bracken_taxon
         Float Bracken_taxon_ratio = trimmed_kraken_n_bracken_task.bracken_taxon_ratio
         String Bracken_top_genus = trimmed_kraken_n_bracken_task.bracken_genus
         File Bracken_report_sorted = trimmed_kraken_n_bracken_task.bracken_report_sorted
+
         # Streptococcus pyogenes Typing using trimmed reads
         String? emmtypingtool_emm_type = emmtypingtool.emmtypingtool_emm_type
         File? emmtypingtool_results_xml = emmtypingtool.emmtypingtool_results_xml
         String? emmtypingtool_version = emmtypingtool.emmtypingtool_version
         String? emmtypingtool_docker = emmtypingtool.emmtypingtool_docker
+
         # Spades
         #File Spades_scaffolds = spades_task.scaffolds
         # quast
@@ -142,11 +149,14 @@ workflow GAS_identification_workflow{
         Int QUAST_no_of_contigs = quast_task.number_contigs
         Int QUAST_n50_value = quast_task.n50_value
         Float QUAST_gc_percent = quast_task.gc_percent
+
         # rMLST 
         String rMLST_TAXON = rmlst_task.taxon
+
         # emmTyper 
         File emmtyper_results = emmtyper_task.emmtyper_results
         String emmtyper_emmtype = emmtyper_task.emmtype
+        
         # ani
         Float ani_precent_aligned = mummerANI_task.ani_precent_aligned
         Float ani_percent = mummerANI_task.ani_ANI
