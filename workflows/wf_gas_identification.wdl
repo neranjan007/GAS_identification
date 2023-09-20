@@ -109,6 +109,9 @@ workflow GAS_identification_workflow{
         # raw fastqc
         File FASTQC_raw_R1 = rawfastqc_task.r1_fastqc
         File FASTQC_raw_R2 = rawfastqc_task.r2_fastqc
+        String FASTQ_SCAN_raw_total_no_bases = rawfastqc_task.total_no_bases
+        String FASTQ_SCAN_raw_coverage = rawfastqc_task.coverage
+        String FASTQC_SCAN_exp_length = rawfastqc_task.exp_length
 
         # raw screen
         String screen_raw_flag = raw_screen_reads_task.read_screen
@@ -123,6 +126,8 @@ workflow GAS_identification_workflow{
         # Trimmed read qc
         File FASTQC_Trim_R1 = trimmedfastqc_task.r1_fastqc
         File FASTQC_Trim_R2 = trimmedfastqc_task.r2_fastqc
+        String FASTQ_SCAN_trim_total_no_bases = trimmedfastqc_task.total_no_bases
+        String FASTQ_SCAN_trim_coverage = trimmedfastqc_task.coverage
 
         # screen trimmed
         String screen_trimmed_flag = trimmed_screen_reads_task.read_screen
