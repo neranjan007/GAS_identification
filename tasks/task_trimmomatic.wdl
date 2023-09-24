@@ -9,8 +9,8 @@ task trimmomatic_task{
         #task inputs
         File read1
         File read2
-        Int minlen = 75
-        Int window_size = 6
+        Int minlen = 50
+        Int window_size = 10
         Int required_quality = 30
         String docker = "staphb/trimmomatic:0.39"
         Int cpu = 8
@@ -29,8 +29,9 @@ task trimmomatic_task{
             "~{read1}" "~{read2}" \
             "~{samplename_r1}_paired.fastq.gz" "~{samplename_r1}_unpaired.fastq.gz" \
             "~{samplename_r2}_paired.fastq.gz" "~{samplename_r2}_unpaired.fastq.gz" \
-            ILLUMINACLIP:/Trimmomatic-0.39/adapters/TruSeq3-PE.fa:2:20:10:8:TRUE \
-            SLIDINGWINDOW:~{window_size}:~{required_quality} MINLEN:~{minlen}        
+            ILLUMINACLIP:/Trimmomatic-0.39/adapters/TruSeq3-PE.fa:2:30:10:8:TRUE \
+            LEADING:30 TRAILING:30 \
+            SLIDINGWINDOW:~{window_size}:~{required_quality} MINLEN:~{minlen} &> trim.stats.txt        
     >>>
     
     output{

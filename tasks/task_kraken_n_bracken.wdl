@@ -1,6 +1,6 @@
 version 1.0 
 
-task kraken_n_braken{
+task kraken_n_bracken_task{
     meta{
         description: "taxonomic assignment of metagenomics sequencing reads"
     }
@@ -52,12 +52,15 @@ task kraken_n_braken{
         sort -t$'\t' -k7 -nr ~{samplename}.bracken.txt | awk -F "\t" 'NR==1 {print $2}' > ~{samplename}.taxid.txt 
         # Genus
         sort -t$'\t' -k7 -nr ~{samplename}.bracken.txt | awk 'NR==1 {print $1}' > GENUS 
+        # sorted bracken 
+        sort -t$'\t' -k7 -nr ~{samplename}.bracken.txt > ~{samplename}.bracken.sorted.txt
 
     >>>
 
     output{
         File kraken2_report = "~{samplename}.kraken.report.txt"
         File bracken_report = "~{samplename}.bracken.txt"
+        File bracken_report_sorted = "~{samplename}.bracken.sorted.txt"
         File bracken_report_filter = "~{samplename}.bracken.filtered.txt"
         File bracken_taxid = "~{samplename}.taxid.txt"
         Float bracken_taxon_ratio = read_float("RATIO")
