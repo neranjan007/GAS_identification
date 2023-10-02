@@ -1,7 +1,6 @@
 version 1.0
 
 import "../tasks/task_fastqc.wdl" as fastqc
-import "../tasks/task_screen.wdl" as screen
 import "../tasks/task_kraken_n_bracken.wdl" as kraken_n_bracken
 import "../tasks/task_trimmomatic.wdl" as trimmomatic
 import "../tasks/task_emmtypingtool.wdl" as emmtyping_task
@@ -27,18 +26,6 @@ workflow GAS_identification_workflow{
             read2 = R2 
     }
 
-    call screen.check_reads as raw_screen_reads_task{
-        input:
-            read1 = R1,
-            read2 = R2
-    }
-
-    call kraken_n_bracken.kraken_n_bracken_task as raw_kraken_n_bracken_task{
-        input:
-            read1 = R1,
-            read2 = R2,
-            samplename = samplename        
-    }
 
     call trimmomatic.trimmomatic_task{
         input:
@@ -47,12 +34,6 @@ workflow GAS_identification_workflow{
     }
 
     call fastqc.fastqc_task as trimmedfastqc_task{
-        input:
-            read1 = trimmomatic_task.read1_paired,
-            read2 = trimmomatic_task.read2_paired
-    }
-
-    call screen.check_reads as trimmed_screen_reads_task{
         input:
             read1 = trimmomatic_task.read1_paired,
             read2 = trimmomatic_task.read2_paired
@@ -113,26 +94,11 @@ workflow GAS_identification_workflow{
         String FASTQ_SCAN_raw_coverage = rawfastqc_task.coverage
         String FASTQC_SCAN_exp_length = rawfastqc_task.exp_length
 
-        # raw screen
-        String screen_raw_flag = raw_screen_reads_task.read_screen
-        Int screen_raw_est_genome_length = raw_screen_reads_task.est_genome_length
-        Float screen_raw_est_coverage = raw_screen_reads_task.est_coverage
-
-        # kraken2 Bracken 
-        String Bracken_top_taxon_rawReads = raw_kraken_n_bracken_task.bracken_taxon
-        Float Bracken_taxon_ratio_rawReads = raw_kraken_n_bracken_task.bracken_taxon_ratio
-        String Bracken_top_genus_rawReads = raw_kraken_n_bracken_task.bracken_genus
-
         # Trimmed read qc
         File FASTQC_Trim_R1 = trimmedfastqc_task.r1_fastqc
         File FASTQC_Trim_R2 = trimmedfastqc_task.r2_fastqc
         String FASTQ_SCAN_trim_total_no_bases = trimmedfastqc_task.total_no_bases
         String FASTQ_SCAN_trim_coverage = trimmedfastqc_task.coverage
-
-        # screen trimmed
-        String screen_trimmed_flag = trimmed_screen_reads_task.read_screen
-        Int screen_trimmed_est_genome_length = trimmed_screen_reads_task.est_genome_length
-        Float screen_trimmed_est_coverage = trimmed_screen_reads_task.est_coverage
 
         # kraken2 Bracken after trimming
         String Bracken_top_taxon = trimmed_kraken_n_bracken_task.bracken_taxon
@@ -147,7 +113,8 @@ workflow GAS_identification_workflow{
         String? emmtypingtool_docker = emmtypingtool.emmtypingtool_docker
 
         # Spades
-        #File Spades_scaffolds = spades_task.scaffolds
+        File Spades_scaffolds = spades_task.scaffolds
+
         # quast
         File QUAST_report = quast_task.quast_report
         Int QUAST_genome_length = quast_task.genome_length
