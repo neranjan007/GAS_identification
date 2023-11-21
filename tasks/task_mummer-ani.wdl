@@ -10,7 +10,7 @@ task mummerANI_task{
         File? ref_genome
         String samplename
         Float mash_filter = 0.9
-        String docker = "neranjan007/mummer:4.0.0-ANI-gas"
+        String docker = "neranjan007/mummer:4.0.0-ANI-gbs2"
         Int cpu = 1
     }
 
