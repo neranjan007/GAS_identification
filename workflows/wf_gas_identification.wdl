@@ -17,6 +17,7 @@ workflow GAS_identification_workflow{
         String samplename
         String? emmtypingtool_docker_image
         File? referance_genome
+        File kraken2_database
     }
 
     # tasks and/or subworkflows to execute
@@ -43,7 +44,8 @@ workflow GAS_identification_workflow{
         input:
             read1 = trimmomatic_task.read1_paired,
             read2 = trimmomatic_task.read2_paired,
-            samplename = samplename
+            samplename = samplename,
+            kraken2_db = kraken2_database
     }
 
     # emmtyping of trimmed reads

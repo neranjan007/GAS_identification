@@ -2,6 +2,6 @@
   "GAS_identification_workflow.R1": "File",
   "GAS_identification_workflow.R2": "File",
   "GAS_identification_workflow.samplename": "String",
-  "GAS_identification_workflow.kraken_n_braken.kraken2_db": "File"
+  "GAS_identification_workflow.kraken2_database": "File"
 }
 
