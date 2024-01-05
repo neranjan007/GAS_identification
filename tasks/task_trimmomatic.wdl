@@ -27,16 +27,22 @@ task trimmomatic_task{
         trimmomatic PE \
             -threads ~{cpu} \
             "~{read1}" "~{read2}" \
-            "~{samplename_r1}_paired.fastq.gz" "~{samplename_r1}_unpaired.fastq.gz" \
-            "~{samplename_r2}_paired.fastq.gz" "~{samplename_r2}_unpaired.fastq.gz" \
+            "paired_~{samplename_r1}.fastq.gz" "unpaired_~{samplename_r1}.fastq.gz" \
+            "paired_~{samplename_r2}.fastq.gz" "unpaired_~{samplename_r2}.fastq.gz" \
             ILLUMINACLIP:/Trimmomatic-0.39/adapters/TruSeq3-PE.fa:2:30:10:8:TRUE \
             LEADING:30 TRAILING:30 \
             SLIDINGWINDOW:~{window_size}:~{required_quality} MINLEN:~{minlen} &> trim.stats.txt        
+
+        # removes the brackets from the percentage string
+        grep "Both Surviving" trim.stats.txt | awk -F " " ' { print $8 } ' | sed 's/[)(]//g' > serviving_pairs
+        grep "Input Read Pairs" trim.stats.txt >  trim.stats-only.txt
     >>>
     
     output{
-        File read1_paired = "~{samplename_r1}_paired.fastq.gz"
-        File read2_paired = "~{samplename_r2}_paired.fastq.gz"
+        File read1_paired = "paired_~{samplename_r1}.fastq.gz"
+        File read2_paired = "paired_~{samplename_r2}.fastq.gz"
+        File trimed_stats = "trim.stats-only.txt"
+        String serviving_read_pairs = read_string("serviving_pairs")
     }
 
     runtime{
