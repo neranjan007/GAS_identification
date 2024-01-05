@@ -32,7 +32,7 @@ Standard-8  :  [https://benlangmead.github.io/aws-indexes/k2](https://benlangmea
 
 
 
-**inputs**   
+### Inputs  
 
 *  Illumina paired end reads in gz format.
 *  Kraken bracken database in tar.gz format.  
@@ -47,7 +47,7 @@ Input JSON file should have the following required input variables:
 }
 ```
 
-Workflow is written in WDL and can be implemented in Terra or can be run in a local computer with Cromwell.    
+   
 
 ### Command line  
 
