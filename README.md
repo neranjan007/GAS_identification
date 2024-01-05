@@ -12,7 +12,8 @@ CT-GASIDnType workflow takes paired end reads as input, and will perform:
 *  Quality control
 *  Contamination check
 *  Assemble reads to scaffolds
-*  Confirm taxa
+*  Confirm taxa 
+*  Perform MLST and rMLST typing 
 *  Perform emm typing (GAS)  
 *  Check for antibiotic resistance genes  
 
