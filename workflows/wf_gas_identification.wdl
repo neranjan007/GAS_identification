@@ -163,6 +163,7 @@ workflow GAS_identification_workflow{
         # ani
         Float ani_precent_aligned = mummerANI_task.ani_precent_aligned
         Float ani_percent = mummerANI_task.ani_ANI
+        String ani_species = mummerANI_task.ani_species
 
         # TS_MLST typing
         File TS_MLST_results = ts_mlst_task.ts_mlst_results
