@@ -11,7 +11,7 @@ task version_capture {
     volatile: true
   }
   command {
-    GAS_Version="GAS v1.4.3"
+    GAS_Version="GAS v1.4.4"
     ~{default='' 'export TZ=' + timezone}
     date +"%Y-%m-%d" > TODAY
     echo "$GAS_Version" > GAS_VERSION
