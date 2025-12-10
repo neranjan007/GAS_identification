@@ -6,7 +6,7 @@ import "../tasks/task_trimmomatic.wdl" as trimmomatic
 import "../tasks/task_emmtypingtool.wdl" as emmtyping_task
 import "../tasks/task_spades.wdl" as spades
 import "../tasks/task_quast.wdl" as quast
-import "../tasks/task_rmlst.wdl" as rmlst
+# import "../tasks/task_rmlst.wdl" as rmlst
 import "../tasks/task_emmtyper.wdl" as emmtyper
 import "../tasks/task_mummer-ani.wdl" as ani
 import "../tasks/task_ts_mlst.wdl" as ts_mlst
@@ -78,10 +78,10 @@ workflow GAS_identification_workflow{
             samplename = samplename
     }
 
-    call rmlst.rmlst_task{
-        input:
-            scaffolds = spades_task.scaffolds
-    }
+    # call rmlst.rmlst_task{
+    #     input:
+    #         scaffolds = spades_task.scaffolds
+    # }
 
     call emmtyper.emmtyper_task{
         input:
@@ -154,7 +154,7 @@ workflow GAS_identification_workflow{
         Float QUAST_gc_percent = quast_task.gc_percent
 
         # rMLST 
-        String rMLST_TAXON = rmlst_task.taxon
+        # String rMLST_TAXON = rmlst_task.taxon
 
         # emmTyper 
         File emmtyper_results = emmtyper_task.emmtyper_results
