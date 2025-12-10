@@ -1,20 +1,20 @@
-This workflow is currently under development use it with caution
-
-# Group A Streptococcus (GAS) Identification and Typing   
+# Group A Streptococcus (GAS) Identification and Typing 
+[![Dockstore](https://img.shields.io/badge/Dockstore-CT--GAS-blue)](https://dockstore.org/workflows/github.com/neranjan007/GAS_identification/gas_identification_wf2:main?tab=info)  [![Dockstore](https://img.shields.io/badge/Version-1.4.4-blue)]()  
+This workflow is currently under development use it with caution  
 
 # Introduction  
 
 
 This workflow will identify Streptococcus pyogenes (Group A Streptococcus) and its emm typing.  
-This is a bioinformatic pipeline developed using WDL to perform serotyping group A Streptococcus (GAS) speices. This pipeline uses docker containers which will simplyfy and reduce the installation and compatibility issues arrise duing installation of softwares. The workflow can be deployed in a standalone computer as well as using Terra platform. To run as a standalone simply clone the repository to your working environment and to run the pipeline you need a cromwell to be installed as a prerequisite. To run in Terra platform, you can use the [Dockstore](https://dockstore.org/workflows/github.com/neranjan007/GAS_identification/gas_identification_wf2:main?tab=info) to search and launch to Terra.   
+This is a bioinformatic pipeline developed using WDL to perform serotyping group A Streptococcus (GAS) speices. This pipeline uses docker containers which will simplyfy and reduce the installation and compatibility issues arrise duing installation of softwares. The workflow can be deployed in a standalone computer as well as using Terra platform. To run as a standalone simply clone the repository to your working environment and to run the pipeline you need a cromwell to be installed as a prerequisite. To run in Terra platform, you can use the [Dockstore](https://dockstore.org/workflows/github.com/neranjan007/GAS_identification/gas_identification_wf2:main?tab=info) to search and launch to Terra.    
 
 CT-GASIDnType workflow takes paired end reads as input, and will perform:  
 *  Quality control
 *  Contamination check
-*  Assemble reads to scaffolds
+*  Assemble reads to scaffolds and perform quality check
 *  Confirm taxa 
-*  Perform MLST and rMLST typing 
-*  Perform emm typing (GAS)  
+*  Perform MLST typing 
+*  Perform emm typing for GAS  
 *  Check for antibiotic resistance genes  
 
 # Quick Run Guide  
@@ -48,13 +48,24 @@ Input JSON file should have the following required input variables:
 ```
 
    
+## Usage
+### Command line   
+Using miniwdl: 
+```
+miniwdl run workflows/wf_gas_identification.wdl -i input.json
+```
 
-### Command line  
-
+Using Cromwell:
 ```
 java -jar cromwell run workflows/wf_gas_identification.wdl -i input.json 
 ```  
 
+
+### Terra 
+The workflow can be intergrated into Terra using the following link in [Dockstore](https://dockstore.org/workflows/github.com/neranjan007/GAS_identification/gas_identification_wf2:main?tab=info).  
+
+## Feedback
+If you have used the workflow and encounter any issues please use the github issues tab to report to us, this will help us to keep track of the current errors. 
 
 ## Reference  
 *  https://www.cdc.gov/streplab/index.html  
