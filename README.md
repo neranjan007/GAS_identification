@@ -1,5 +1,5 @@
 # Group A Streptococcus (GAS) Identification and Typing 
-[![Dockstore](https://img.shields.io/badge/Dockstore-CT--GAS-blue)](https://dockstore.org/workflows/github.com/neranjan007/GAS_identification/gas_identification_wf2:main?tab=info)  [![Dockstore](https://img.shields.io/badge/Version-1.4.4-blue)]()  
+[![Dockstore](https://img.shields.io/badge/Dockstore-CT--GAS-blue)](https://dockstore.org/workflows/github.com/neranjan007/GAS_identification/gas_identification_wf2:main?tab=info)  [![Dockstore](https://img.shields.io/badge/Version-1.5.0-blue)]()  
 This workflow is currently under development use it with caution  
 
 # Introduction  
