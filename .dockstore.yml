@@ -4,9 +4,9 @@ workflows:
    subclass: WDL
    primaryDescriptorPath: /workflows/wf_gas_identification.wdl
    testParameterFiles:
-    - empty.json
+    - /files/empty.json
  - name: ani-test
    subclass: WDL
    primaryDescriptorPath: /tasks/task_mummer-ani.wdl
    testParameterFiles:
-    - empty.json
+    - /files/empty.json

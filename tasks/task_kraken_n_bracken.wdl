@@ -31,7 +31,7 @@ task kraken_n_bracken_task{
             --minimum-hit-groups ~{min_hit_groups} \
             --report-minimizer-data \
             --paired ~{read1} ~{read2} \
-            --report ~{samplename}.kraken.report.txt 
+            --report ~{samplename}.kraken.report.txt > ./k2_output.txt 2> ./k2_error.txt
         
         # run braken
         bracken \
@@ -52,9 +52,9 @@ task kraken_n_bracken_task{
         sort -t$'\t' -k7 -nr ~{samplename}.bracken.txt | awk -F "\t" 'NR==1 {print $2}' > ~{samplename}.taxid.txt 
         # Genus
         sort -t$'\t' -k7 -nr ~{samplename}.bracken.txt | awk 'NR==1 {print $1}' > GENUS 
-        # sorted bracken 
-        sort -t$'\t' -k7 -nr ~{samplename}.bracken.txt > ~{samplename}.bracken.sorted.txt
-
+        # sorted bracken with header
+        head -n 1 ~{samplename}.bracken.txt > ~{samplename}.bracken.sorted.txt
+        tail -n +2 ~{samplename}.bracken.txt | sort -t$'\t' -k7 -nr >> ~{samplename}.bracken.sorted.txt
     >>>
 
     output{
